@@ -35,19 +35,13 @@ class connector(object):
 
             f.close()
 
-            #print self.__conStr
             self.__connection = pyodbc.connect(self.__conStr)
             self.__cursor = self.__connection.cursor()
             self.pyodbc = pyodbc
 
-            # get table definition
-            #self.__cursor.execute()
-
             # call __init__ only once
             self.__init_once = False
 
-
-    #
     def getCursor(self):
         return self.__cursor
 

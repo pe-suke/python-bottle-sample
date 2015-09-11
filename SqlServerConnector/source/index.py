@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 import os
-#import pyodbc
 import re
 
 from bottle import route, run, request
 from bottle import TEMPLATE_PATH, jinja2_template as template
 from bottle import static_file
 from jinja2 import Environment, FileSystemLoader
-#from db.connector import getCursor,closeConnection
 from db.connector import connector,ConnectorException
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -47,7 +45,7 @@ def handsontable(filename):
 
 @route('/top', method='GET')
 def top():
-    # get parameter from request body
+
     sql = request.forms.get('sql')
     responseData = []
 
@@ -76,8 +74,7 @@ def query():
     if sql is not None:
         # trim space
         repSql = " ".join(sql.split())
-        # match = re.match(r'.*from (.*) ', repSql)
-        # tableName = match.group(1)
+
         headerRender = True
 
         try:
@@ -157,5 +154,5 @@ def get_table_name_list(con):
 
 
 if __name__ == "__main__":
-    # localhost:8080 で公開するように実行
+    # run server localhost:8080
     run(host="localhost", port=8080, debug=True, reloader=True)
