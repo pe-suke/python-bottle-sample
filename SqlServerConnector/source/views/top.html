@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+     <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css" />
+    <title>SqlServerConnector</title>
+</head>
+<body>
+    <form action="/query" method="POST" name="query">
+        <div class="form-group">
+            <label class="control-label">SQL</label>
+            <textarea cols="40" rows="8" class="form-control" name="sql"></textarea>
+        </div>
+        <input type="submit" class="btn btn-default" value="クエリ送信" />
+    </form>
+    <textarea>{{result}}</textarea>
+</body>
+</html>

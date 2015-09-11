@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/js/textarea-helper.js"></script>
+    <script src="/dist/handsontable.full.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css" />
+    <link rel="stylesheet" media="screen" href="/dist/handsontable.full.css">
+    <title>SqlServerConnector</title>
+    <!-- for handsontable -->
+    <script type="text/javascript">
+        window.onload = function() {
+            var data =[{% for row in tbodyList %}[{% for col in row %}'{{col}}',{% endfor %}],{% endfor %}];
+
+            var container = document.getElementById('example');
+            var hot = new Handsontable(container, {
+                  data: data,
+                  minSpareRows: 1,
+                  rowHeaders: true,
+                  colHeaders: true,
+                  contextMenu: true,
+                  colHeaders: {{theadList}}
+            });
+        }
+
+        function sqlAutoComplete() {
+        $("document").ready(function () {
+                    var availableTags = [{% for item in suggestItem %}'{{item}}',{% endfor %}];
+
+            $("#tags").on("keydown", function () {
+                var newY = $(this).textareaHelper('caretPos').top + (parseInt($(this).css('font-size'), 10) * 1.5);
+                var newX = $(this).textareaHelper('caretPos').left;
+                var posString = "left+" + newX + "px top+" + newY + "px";
+                $(this).autocomplete("option", "position", {
+                    my: "left top",
+                    at: posString
+                });
+            });
+
+        $("#tags ").autocomplete({
+            source: availableTags
+        });
+    });
+}
+
+    </script>
+
+</head>
+<body>
+    <div class="container">
+        <p class="text-danger">{{error}}</p>
+        <form action="/query" method="POST" name="query">
+            <div class="form-group">
+                    <div class="ui-widget">
+                    <label class="control-label" for="tags">SQL</label>
+                    <textarea cols="40" rows="8" class="form-control" name="sql" id="tags" onkeydown="sqlAutoComplete();">{{query}}</textarea>
+            </div>
+            </div>
+            <input type="submit" class="btn btn-default" value="クエリ送信" />
+        </form>
+        <button type="button" class="btn btn-primary" onclick="location.href='/open'">コネクションオープン</button>
+        <button type="button" class="btn btn-primary" onclick="location.href='/end'">コネクションクローズ</button>
+        <br/>
+        <div id="example"  style="overflow: auto; width: 1140px; height: 300px"></div>
+    </div>
+</body>
+</html>
